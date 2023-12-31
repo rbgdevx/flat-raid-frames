@@ -10,7 +10,7 @@
 ## X-Website: https://www.curseforge.com/wow/addons/flatraidframes
 ## IconTexture: Interface\AddOns\FlatRaidFrames\logo.tga
 ## X-Curse-Project-ID: 956555
-## X-Wago-ID:
-## X-WoWI-ID:
+## X-Wago-ID: BKpqbBGE
+## X-WoWI-ID: 26668
 
 FlatRaidFrames.lua
