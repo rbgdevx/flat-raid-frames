@@ -1,6 +1,6 @@
 ## Interface: 100200
 ## Title: FlatRaidFrames
-## Version: 1.0.0
+## Version: 1.0.1
 ## Author: Ajax
 ## Notes: Flattens raid frame textures
 ## X-Flavor: Mainline
