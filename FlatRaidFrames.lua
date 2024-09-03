@@ -1,5 +1,9 @@
 local AddonName, NS = ...
 
+local CreateFrame = CreateFrame
+local pairs = pairs
+local hooksecurefunc = hooksecurefunc
+
 local FRF = {}
 NS.FRF = FRF
 

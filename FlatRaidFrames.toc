@@ -1,14 +1,13 @@
-## Interface: 100200
+## Interface: 110002
 ## Title: FlatRaidFrames
-## Version: 1.0.1
-## Author: Ajax
+## Version: 1.0.2
+## Author: RBGDEV
 ## Notes: Flattens raid frame textures
-## X-Flavor: Mainline
+## IconTexture: Interface\AddOns\FlatRaidFrames\logo.tga
 ## X-Category: Interface Enhancements
 ## X-Credits: Ajax
 ## X-License: All Rights Reserved
 ## X-Website: https://www.curseforge.com/wow/addons/flatraidframes
-## IconTexture: Interface\AddOns\FlatRaidFrames\logo.tga
 ## X-Curse-Project-ID: 956555
 ## X-Wago-ID: BKpqbBGE
 ## X-WoWI-ID: 26668
