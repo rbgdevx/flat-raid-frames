@@ -1,5 +1,9 @@
 # Flat Raid Frames
 
+## [v1.0.4](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.0.4) (2024-12-20)
+
+- update toc
+
 ## [v1.0.3](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.0.3) (2024-10-27)
 
 - update toc
