@@ -1,5 +1,10 @@
 # Flat Raid Frames
 
+## [v1.1.0](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.1.0) (2025-04-07)
+
+- Adding new arena frames to be flattened
+- update toc
+
 ## [v1.0.4](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.0.4) (2024-12-20)
 
 - update toc
