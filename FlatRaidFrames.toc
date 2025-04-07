@@ -1,6 +1,6 @@
 ## Interface: 110100
 ## Title: FlatRaidFrames
-## Version: 1.0.5
+## Version: 1.1.1
 ## Author: RBGDEV
 ## Notes: Flattens raid frame textures
 ## IconTexture: Interface\AddOns\FlatRaidFrames\logo.tga
