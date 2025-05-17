@@ -1,24 +1,9 @@
 {
+  "Lua.runtime.version": "Lua 5.1",
   "Lua.diagnostics.globals": [
-    "GetPlayerFactionGroup",
-    "CompactPartyFrameBorderFrame",
     "CompactArenaFrame",
     "Mixin",
-    "BackdropTemplateMixin"
-  ],
-  "Lua.runtime.version": "Lua 5.1",
-  "Lua.runtime.builtin": {
-    "basic": "disable",
-    "debug": "disable",
-    "io": "disable",
-    "math": "disable",
-    "os": "disable",
-    "package": "disable",
-    "string": "disable",
-    "table": "disable",
-    "utf8": "disable"
-  },
-  "Lua.workspace.library": [
-    "c:\\Users\\17186\\.cursor\\extensions\\ketho.wow-api-0.19.1\\Annotations"
+    "BackdropTemplateMixin",
+    "CompactPartyFrameBorderFrame"
   ]
 }
