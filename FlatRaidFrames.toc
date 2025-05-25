@@ -1,9 +1,10 @@
 ## Interface: 110105
 ## Title: FlatRaidFrames
-## Version: 1.1.1
+## Version: 1.2.0
 ## Author: RBGDEV
 ## Notes: Flattens raid frame textures
 ## IconTexture: Interface\AddOns\FlatRaidFrames\logo.tga
+## SavedVariables: FRFDB
 ## Category-enUS: RBGDEV
 ## Category-deDE: RBGDEV
 ## Category-esES: RBGDEV
@@ -22,4 +23,11 @@
 ## X-Wago-ID: BKpqbBGE
 ## X-WoWI-ID: 26668
 
+#@no-lib-strip@
+embeds.xml
+#@end-no-lib-strip@
+
+config.lua
+helpers.lua
+options.lua
 FlatRaidFrames.lua

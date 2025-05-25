@@ -4,6 +4,41 @@
     "CompactArenaFrame",
     "Mixin",
     "BackdropTemplateMixin",
-    "CompactPartyFrameBorderFrame"
-  ]
+    "CompactPartyFrameBorderFrame",
+    "CopyTable",
+    "SlashCmdList",
+    "CompactPartyFrameTitle",
+    "DefaultCompactUnitFrameOptions",
+    "SELECTED_CHAT_FRAME",
+    "DEFAULT_CHAT_FRAME",
+    "UIParent",
+    "NORMAL_FONT_COLOR",
+    "GameFontNormal",
+    "GameFontHighlight",
+    "ACCEPT",
+    "CANCEL",
+    "Settings",
+    "GameFontHighlightLarge",
+    "GameFontHighlightSmall",
+    "CLOSE",
+    "FONT_COLOR_CODE_CLOSE",
+    "SetDesaturation",
+    "WOW_PROJECT_ID",
+    "WOW_PROJECT_MAINLINE",
+    "ColorPickerFrame",
+    "ChatFontNormal",
+    "OKAY",
+    "NOT_BOUND"
+  ],
+  "Lua.runtime.builtin": {
+    "basic": "disable",
+    "debug": "disable",
+    "io": "disable",
+    "math": "disable",
+    "os": "disable",
+    "package": "disable",
+    "string": "disable",
+    "table": "disable",
+    "utf8": "disable"
+  }
 }

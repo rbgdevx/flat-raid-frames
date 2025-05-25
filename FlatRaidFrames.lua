@@ -1,10 +1,14 @@
 local AddonName, NS = ...
 
-local CreateFrame = CreateFrame
+local next = next
+local LibStub = LibStub
 local hooksecurefunc = hooksecurefunc
 local pairs = pairs
 -- local GetArenaOpponentSpec = GetArenaOpponentSpec
 -- local GetSpecializationInfoByID = GetSpecializationInfoByID
+
+local AceConfig = LibStub("AceConfig-3.0")
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 local texture = [[Interface\Addons\FlatRaidFrames\texture.blp]]
 local backdrop = {
@@ -15,15 +19,9 @@ local backdrop = {
   insets = { left = 1, right = 1, top = 1, bottom = 1 },
 }
 
-local FRF = {}
-NS.FRF = FRF
-
-local FRFFrame = CreateFrame("Frame", "FRFFrame")
-FRFFrame:SetScript("OnEvent", function(_, event, ...)
-  if FRF[event] then
-    FRF[event](FRF, ...)
-  end
-end)
+---@type FlatRaidFrames
+local FlatRaidFrames = NS.FlatRaidFrames
+local FlatRaidFramesFrame = NS.FlatRaidFrames.frame
 
 local function updateTextures(self)
   if self:IsForbidden() then
@@ -64,7 +62,77 @@ end
 
 hooksecurefunc("CompactUnitFrame_UpdateAll", updateTextures)
 
-function FRF:PLAYER_ENTERING_WORLD()
+local function updateRoles(frame)
+  if frame.optionTable == DefaultCompactUnitFrameOptions then
+    if frame.roleIcon then
+      frame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+    end
+  end
+end
+
+hooksecurefunc("CompactUnitFrame_UpdateRoleIcon", updateRoles)
+
+local function updateNames(frame)
+  if frame.optionTable == DefaultCompactUnitFrameOptions then
+    if frame.name then
+      frame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+    end
+  else
+    if NS.inParty() then
+      local unitIndex = 1
+      local petFrame
+      repeat
+        petFrame = _G["CompactPartyFramePet" .. unitIndex]
+        if petFrame then
+          if petFrame.name then
+            petFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+          end
+        end
+        unitIndex = unitIndex + 1
+      until not petFrame
+    end
+    if NS.inRaid() then
+      local unitIndex = 1
+      local raidFrame
+      repeat
+        raidFrame = _G["CompactRaidFrame" .. unitIndex]
+        if raidFrame then
+          if raidFrame.name then
+            raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+          end
+        end
+        unitIndex = unitIndex + 1
+      until not raidFrame
+    end
+  end
+end
+
+hooksecurefunc("CompactUnitFrame_UpdateName", updateNames)
+
+local function updateGroups(groupIndex)
+  local groupFrame = _G["CompactRaidGroup" .. groupIndex]
+  if groupFrame then
+    if groupFrame.title then
+      groupFrame.title:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
+    end
+    -- loop through 1-5
+    for unitIndex = 1, 5 do
+      local raidFrame = _G["CompactRaidGroup" .. groupIndex .. "Member" .. unitIndex]
+      if raidFrame then
+        if raidFrame.name then
+          raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+        end
+        if raidFrame.roleIcon then
+          raidFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+        end
+      end
+    end
+  end
+end
+
+hooksecurefunc("CompactRaidGroup_GenerateForGroup", updateGroups)
+
+function FlatRaidFrames:PLAYER_ENTERING_WORLD()
   local function set_stealth_unit_textures(foreground_texture, background_texture)
     foreground_texture:SetTexture(texture)
     background_texture:SetTexture(texture)
@@ -128,12 +196,128 @@ function FRF:PLAYER_ENTERING_WORLD()
       set_unit_border(pre_match_frame)
     end
   end
+
+  CompactPartyFrameTitle:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
 end
 
-function FRF:ADDON_LOADED(addon)
-  if addon == AddonName then
-    FRFFrame:UnregisterEvent("ADDON_LOADED")
-    FRFFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+function FlatRaidFrames:PLAYER_LOGIN()
+  FlatRaidFramesFrame:UnregisterEvent("PLAYER_LOGIN")
+
+  NS.OnDbChanged()
+
+  FlatRaidFramesFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+end
+FlatRaidFramesFrame:RegisterEvent("PLAYER_LOGIN")
+
+NS.OnDbChanged = function()
+  FlatRaidFramesFrame.dbChanged = true
+
+  do
+    if NS.inParty() then
+      CompactPartyFrameTitle:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
+      -- loop through 1-5
+      for unitIndex = 1, 5 do
+        local memberFrame = _G["CompactPartyFrameMember" .. unitIndex]
+        local petFrame = _G["CompactPartyFramePet" .. unitIndex]
+        if memberFrame then
+          if memberFrame.name then
+            memberFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+          end
+          if memberFrame.roleIcon then
+            memberFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+          end
+        end
+        if petFrame then
+          if petFrame.name then
+            petFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+          end
+        end
+      end
+    end
+  end
+
+  do
+    if NS.inRaid() then
+      local unitIndex = 1
+      local raidFrame
+      repeat
+        raidFrame = _G["CompactRaidFrame" .. unitIndex]
+        if raidFrame then
+          if raidFrame.name then
+            raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+          end
+          if raidFrame.roleIcon then
+            raidFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+          end
+        end
+        unitIndex = unitIndex + 1
+      until not raidFrame
+    end
+  end
+
+  do
+    if NS.inRaid() then
+      -- loop through 1-8
+      for groupIndex = 1, 8 do
+        local groupFrame = _G["CompactRaidGroup" .. groupIndex]
+        if groupFrame then
+          if groupFrame.title then
+            groupFrame.title:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
+          end
+          -- loop through 1-5
+          for unitIndex = 1, 5 do
+            local raidFrame = _G["CompactRaidGroup" .. groupIndex .. "Member" .. unitIndex]
+            if raidFrame then
+              if raidFrame.name then
+                raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+              end
+              if raidFrame.roleIcon then
+                raidFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  FlatRaidFramesFrame.dbChanged = false
+end
+
+NS.Options_SlashCommands = function(_)
+  AceConfigDialog:Open(AddonName)
+end
+
+NS.Options_Setup = function()
+  AceConfig:RegisterOptionsTable(AddonName, NS.AceConfig)
+  AceConfigDialog:AddToBlizOptions(AddonName, AddonName)
+
+  SLASH_FRF1 = AddonName
+  SLASH_FRF2 = "/frf"
+
+  function SlashCmdList.FRF(message)
+    NS.Options_SlashCommands(message)
   end
 end
-FRFFrame:RegisterEvent("ADDON_LOADED")
+
+function FlatRaidFrames:ADDON_LOADED(addon)
+  if addon == AddonName then
+    FlatRaidFramesFrame:UnregisterEvent("ADDON_LOADED")
+    FlatRaidFramesFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+    FRFDB = FRFDB and next(FRFDB) ~= nil and FRFDB or {}
+
+    -- Copy any settings from default if they don't exist in current profile
+    NS.CopyDefaults(NS.DefaultDatabase, FRFDB)
+
+    -- Reference to active db profile
+    -- Always use this directly or reference will be invalid
+    NS.db = FRFDB
+
+    -- Remove table values no longer found in default settings
+    NS.CleanupDB(FRFDB, NS.DefaultDatabase)
+
+    NS.Options_Setup()
+  end
+end
+FlatRaidFramesFrame:RegisterEvent("ADDON_LOADED")
