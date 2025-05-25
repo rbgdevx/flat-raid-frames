@@ -1,5 +1,10 @@
 # Flat Raid Frames
 
+## [v1.2.1](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.2.1) (2025-05-25)
+
+- Adding new option to hide realm names from frames
+- Cleanup
+
 ## [v1.2.0](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.2.0) (2025-05-25)
 
 - Adding settings to the the addon to be able to hide frame names, roles, group titles, and party title

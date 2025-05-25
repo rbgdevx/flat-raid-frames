@@ -1,9 +1,12 @@
 local AddonName, NS = ...
 
+local _G = _G
 local next = next
 local LibStub = LibStub
 local hooksecurefunc = hooksecurefunc
 local pairs = pairs
+local GetUnitName = GetUnitName
+local DefaultCompactUnitFrameOptions = DefaultCompactUnitFrameOptions
 -- local GetArenaOpponentSpec = GetArenaOpponentSpec
 -- local GetSpecializationInfoByID = GetSpecializationInfoByID
 
@@ -24,11 +27,15 @@ local FlatRaidFrames = NS.FlatRaidFrames
 local FlatRaidFramesFrame = NS.FlatRaidFrames.frame
 
 local function updateTextures(self)
+  if not self then
+    return
+  end
+
   if self:IsForbidden() then
     return
   end
 
-  if self and self:GetName() then
+  if self:GetName() then
     local name = self:GetName()
 
     if name and name:match("^Compact") then
@@ -63,6 +70,14 @@ end
 hooksecurefunc("CompactUnitFrame_UpdateAll", updateTextures)
 
 local function updateRoles(frame)
+  if not frame then
+    return
+  end
+
+  if frame:IsForbidden() then
+    return
+  end
+
   if frame.optionTable == DefaultCompactUnitFrameOptions then
     if frame.roleIcon then
       frame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
@@ -73,6 +88,39 @@ end
 hooksecurefunc("CompactUnitFrame_UpdateRoleIcon", updateRoles)
 
 local function updateNames(frame)
+  if not frame then
+    return
+  end
+
+  if frame:IsForbidden() then
+    return
+  end
+
+  if frame:GetName() then
+    local name = frame:GetName()
+    if
+      name
+      and (
+        name:match("^CompactRaidFrame%d")
+        or name:match("^CompactRaidGroup%dMember%d")
+        or name:match("^CompactPartyFrameMember%d")
+      )
+    then
+      if frame:IsForbidden() then
+        return
+      end
+      if frame.unit then
+        local nameWithServer = GetUnitName(frame.unit, true)
+        if nameWithServer and frame.name then
+          if NS.db.hideFrameRealmNames then
+            local nameWithoutServer = nameWithServer:match("[^-]+")
+            frame.name:SetText(nameWithoutServer)
+          end
+        end
+      end
+    end
+  end
+
   if frame.optionTable == DefaultCompactUnitFrameOptions then
     if frame.name then
       frame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
@@ -119,6 +167,15 @@ local function updateGroups(groupIndex)
     for unitIndex = 1, 5 do
       local raidFrame = _G["CompactRaidGroup" .. groupIndex .. "Member" .. unitIndex]
       if raidFrame then
+        if raidFrame.unit then
+          local nameWithServer = GetUnitName(raidFrame.unit, true)
+          if nameWithServer and raidFrame.name then
+            if NS.db.hideFrameRealmNames then
+              local nameWithoutIndicator = nameWithServer:match("[^-]+")
+              raidFrame.name:SetText(nameWithoutIndicator)
+            end
+          end
+        end
         if raidFrame.name then
           raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
         end
@@ -196,8 +253,6 @@ function FlatRaidFrames:PLAYER_ENTERING_WORLD()
       set_unit_border(pre_match_frame)
     end
   end
-
-  CompactPartyFrameTitle:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
 end
 
 function FlatRaidFrames:PLAYER_LOGIN()
@@ -220,6 +275,17 @@ NS.OnDbChanged = function()
         local memberFrame = _G["CompactPartyFrameMember" .. unitIndex]
         local petFrame = _G["CompactPartyFramePet" .. unitIndex]
         if memberFrame then
+          if memberFrame.unit then
+            local nameWithServer = GetUnitName(memberFrame.unit, true)
+            if nameWithServer and memberFrame.name then
+              if NS.db.hideFrameRealmNames then
+                local nameWithoutServer = nameWithServer:match("[^-]+")
+                memberFrame.name:SetText(nameWithoutServer)
+              else
+                memberFrame.name:SetText(nameWithServer)
+              end
+            end
+          end
           if memberFrame.name then
             memberFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
           end
@@ -243,6 +309,17 @@ NS.OnDbChanged = function()
       repeat
         raidFrame = _G["CompactRaidFrame" .. unitIndex]
         if raidFrame then
+          if raidFrame.unit then
+            local nameWithServer = GetUnitName(raidFrame.unit, true)
+            if nameWithServer and raidFrame.name then
+              if NS.db.hideFrameRealmNames then
+                local nameWithoutIndicator = nameWithServer:match("[^-]+")
+                raidFrame.name:SetText(nameWithoutIndicator)
+              else
+                raidFrame.name:SetText(nameWithServer)
+              end
+            end
+          end
           if raidFrame.name then
             raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
           end
@@ -268,6 +345,17 @@ NS.OnDbChanged = function()
           for unitIndex = 1, 5 do
             local raidFrame = _G["CompactRaidGroup" .. groupIndex .. "Member" .. unitIndex]
             if raidFrame then
+              if raidFrame.unit then
+                local nameWithServer = GetUnitName(raidFrame.unit, true)
+                if nameWithServer and raidFrame.name then
+                  if NS.db.hideFrameRealmNames then
+                    local nameWithoutIndicator = nameWithServer:match("[^-]+")
+                    raidFrame.name:SetText(nameWithoutIndicator)
+                  else
+                    raidFrame.name:SetText(nameWithServer)
+                  end
+                end
+              end
               if raidFrame.name then
                 raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
               end

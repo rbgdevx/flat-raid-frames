@@ -24,7 +24,7 @@ NS.AceConfig = {
       name = "Hide Frame Names",
       desc = "Hide the names on raid and party frames",
       type = "toggle",
-      width = "full",
+      width = 0.9,
       order = 2,
       set = function(_, val)
         NS.db.hideFrameNames = val
@@ -33,6 +33,29 @@ NS.AceConfig = {
       get = function(_)
         return NS.db.hideFrameNames
       end,
+    },
+    hideFrameRealmNames = {
+      name = "Hide Frame Realm Names",
+      desc = "Hide the realm names on raid and party frames",
+      type = "toggle",
+      width = 1.1,
+      order = 3,
+      disabled = function()
+        return NS.db.hideFrameNames
+      end,
+      set = function(_, val)
+        NS.db.hideFrameRealmNames = val
+        NS.OnDbChanged()
+      end,
+      get = function(_)
+        return NS.db.hideFrameRealmNames
+      end,
+    },
+    spacer1 = {
+      name = "",
+      type = "description",
+      order = 6,
+      width = "full",
     },
     hideFrameRoles = {
       name = "Hide Frame Roles",

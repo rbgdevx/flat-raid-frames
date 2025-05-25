@@ -31,5 +31,6 @@ NS.FlatRaidFrames.frame = FlatRaidFramesFrame
 NS.DefaultDatabase = {
   hideFrameTitles = false,
   hideFrameNames = false,
+  hideFrameRealmNames = false,
   hideFrameRoles = false,
 }
