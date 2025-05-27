@@ -78,11 +78,47 @@ local function updateRoles(frame)
     return
   end
 
-  if frame.optionTable == DefaultCompactUnitFrameOptions then
-    if frame.roleIcon then
-      frame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+  if frame:GetName() then
+    local name = frame:GetName()
+    if
+      name
+      and (
+        name:match("^CompactRaidFrame%d")
+        or name:match("^CompactRaidGroup%dMember%d")
+        or name:match("^CompactPartyFrameMember%d")
+        or name:match("^CompactPartyFramePet%d")
+        or name:match("^CompactArenaFrameMember%d")
+        or name:match("^StealthedUnitFrame%d")
+      )
+    then
+      if frame:IsForbidden() then
+        return
+      end
+      if frame.roleIcon then
+        if name:match("^CompactArenaFrameMember%d") then
+          frame.roleIcon:SetAlpha(NS.db.hideEnemyArenaFrameRoles and 0 or 1)
+        else
+          frame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+        end
+
+        if name:match("^PreMatchFrame%d") or name:match("^StealthedUnitFrame%d") then
+          if frame.RoleIconTexture then
+            if name:match("^PreMatchFrame%d") then
+              frame.RoleIconTexture:SetAlpha(NS.db.hidePreMatchEnemyArenaFrameRoles and 0 or 1)
+            else
+              frame.RoleIconTexture:SetAlpha(NS.db.hideEnemyArenaFrameRoles and 0 or 1)
+            end
+          end
+        end
+      end
     end
   end
+
+  -- if frame.optionTable == DefaultCompactUnitFrameOptions then
+  -- 	if frame.roleIcon then
+  -- 		frame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+  -- 	end
+  -- end
 end
 
 hooksecurefunc("CompactUnitFrame_UpdateRoleIcon", updateRoles)
@@ -104,55 +140,53 @@ local function updateNames(frame)
         name:match("^CompactRaidFrame%d")
         or name:match("^CompactRaidGroup%dMember%d")
         or name:match("^CompactPartyFrameMember%d")
+        or name:match("^CompactPartyFramePet%d")
+        or name:match("^CompactArenaFrameMember%d")
+        or name:match("^PreMatchFrame%d")
+        or name:match("^StealthedUnitFrame%d")
       )
     then
       if frame:IsForbidden() then
         return
       end
-      if frame.unit then
+      if frame.unit and frame.name then
+        if name:match("^CompactArenaFrameMember%d") then
+          frame.name:SetAlpha(NS.db.hideEnemyArenaFrameNames and 0 or 1)
+        else
+          frame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+        end
+
         local nameWithServer = GetUnitName(frame.unit, true)
-        if nameWithServer and frame.name then
+        if nameWithServer then
           if NS.db.hideFrameRealmNames then
             local nameWithoutServer = nameWithServer:match("[^-]+")
             frame.name:SetText(nameWithoutServer)
+          end
+        end
+
+        if name:match("^PreMatchFrame%d") or name:match("^StealthedUnitFrame%d") then
+          if name:match("^StealthedUnitFrame%d") then
+            if frame.NameText then
+              frame.NameText:SetAlpha(NS.db.hideEnemyArenaFrameNames and 0 or 1)
+            end
+          else
+            if frame.ClassNameText then
+              frame.ClassNameText:SetAlpha(NS.db.hidePreMatchEnemyArenaFrameClasses and 0 or 1)
+            end
+            if frame.SpecNameText then
+              frame.SpecNameText:SetAlpha(NS.db.hidePreMatchEnemyArenaFrameSpecs and 0 or 1)
+            end
           end
         end
       end
     end
   end
 
-  if frame.optionTable == DefaultCompactUnitFrameOptions then
-    if frame.name then
-      frame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
-    end
-  else
-    if NS.inParty() then
-      local unitIndex = 1
-      local petFrame
-      repeat
-        petFrame = _G["CompactPartyFramePet" .. unitIndex]
-        if petFrame then
-          if petFrame.name then
-            petFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
-          end
-        end
-        unitIndex = unitIndex + 1
-      until not petFrame
-    end
-    if NS.inRaid() then
-      local unitIndex = 1
-      local raidFrame
-      repeat
-        raidFrame = _G["CompactRaidFrame" .. unitIndex]
-        if raidFrame then
-          if raidFrame.name then
-            raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
-          end
-        end
-        unitIndex = unitIndex + 1
-      until not raidFrame
-    end
-  end
+  -- if frame.optionTable == DefaultCompactUnitFrameOptions then
+  -- 	if frame.name then
+  -- 		frame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+  -- 	end
+  -- end
 end
 
 hooksecurefunc("CompactUnitFrame_UpdateName", updateNames)
@@ -167,17 +201,16 @@ local function updateGroups(groupIndex)
     for unitIndex = 1, 5 do
       local raidFrame = _G["CompactRaidGroup" .. groupIndex .. "Member" .. unitIndex]
       if raidFrame then
-        if raidFrame.unit then
+        if raidFrame.unit and raidFrame.name then
+          raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+
           local nameWithServer = GetUnitName(raidFrame.unit, true)
-          if nameWithServer and raidFrame.name then
+          if nameWithServer then
             if NS.db.hideFrameRealmNames then
               local nameWithoutIndicator = nameWithServer:match("[^-]+")
               raidFrame.name:SetText(nameWithoutIndicator)
             end
           end
-        end
-        if raidFrame.name then
-          raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
         end
         if raidFrame.roleIcon then
           raidFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
@@ -253,115 +286,148 @@ function FlatRaidFrames:PLAYER_ENTERING_WORLD()
       set_unit_border(pre_match_frame)
     end
   end
+
+  CompactPartyFrameTitle:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
+  CompactArenaFrameTitle:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
 end
-
-function FlatRaidFrames:PLAYER_LOGIN()
-  FlatRaidFramesFrame:UnregisterEvent("PLAYER_LOGIN")
-
-  NS.OnDbChanged()
-
-  FlatRaidFramesFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-end
-FlatRaidFramesFrame:RegisterEvent("PLAYER_LOGIN")
 
 NS.OnDbChanged = function()
   FlatRaidFramesFrame.dbChanged = true
 
+  CompactPartyFrameTitle:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
+  CompactArenaFrameTitle:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
+
   do
-    if NS.inParty() then
-      CompactPartyFrameTitle:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
-      -- loop through 1-5
-      for unitIndex = 1, 5 do
-        local memberFrame = _G["CompactPartyFrameMember" .. unitIndex]
-        local petFrame = _G["CompactPartyFramePet" .. unitIndex]
-        if memberFrame then
-          if memberFrame.unit then
-            local nameWithServer = GetUnitName(memberFrame.unit, true)
-            if nameWithServer and memberFrame.name then
-              if NS.db.hideFrameRealmNames then
-                local nameWithoutServer = nameWithServer:match("[^-]+")
-                memberFrame.name:SetText(nameWithoutServer)
-              else
-                memberFrame.name:SetText(nameWithServer)
-              end
+    -- loop through 1-3
+    for unitIndex = 1, 3 do
+      local memberFrame = _G["CompactArenaFrameMember" .. unitIndex]
+      if memberFrame then
+        if memberFrame.unit and memberFrame.name then
+          memberFrame.name:SetAlpha(NS.db.hideEnemyArenaFrameNames and 0 or 1)
+
+          local nameWithServer = GetUnitName(memberFrame.unit, true)
+          if nameWithServer then
+            if NS.db.hideFrameRealmNames then
+              local nameWithoutServer = nameWithServer:match("[^-]+")
+              memberFrame.name:SetText(nameWithoutServer)
+            else
+              memberFrame.name:SetText(nameWithServer)
             end
           end
-          if memberFrame.name then
-            memberFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
-          end
-          if memberFrame.roleIcon then
-            memberFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
-          end
         end
-        if petFrame then
-          if petFrame.name then
-            petFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
-          end
+        if memberFrame.roleIcon then
+          memberFrame.roleIcon:SetAlpha(NS.db.hideEnemyArenaFrameRoles and 0 or 1)
+        end
+      end
+      local preMatchFrame = CompactArenaFrame.PreMatchFramesContainer["PreMatchFrame" .. unitIndex]
+      local stealthedUnitFrame = CompactArenaFrame["StealthedUnitFrame" .. unitIndex]
+      if preMatchFrame then
+        if preMatchFrame.ClassNameText then
+          preMatchFrame.ClassNameText:SetAlpha(NS.db.hidePreMatchEnemyArenaFrameClasses and 0 or 1)
+        end
+        if preMatchFrame.SpecNameText then
+          preMatchFrame.SpecNameText:SetAlpha(NS.db.hidePreMatchEnemyArenaFrameSpecs and 0 or 1)
+        end
+        if preMatchFrame.RoleIconTexture then
+          preMatchFrame.RoleIconTexture:SetAlpha(NS.db.hidePreMatchEnemyArenaFrameRoles and 0 or 1)
+        end
+      end
+      if stealthedUnitFrame then
+        if stealthedUnitFrame.NameText then
+          stealthedUnitFrame.NameText:SetAlpha(NS.db.hideEnemyArenaFrameNames and 0 or 1)
+        end
+        if stealthedUnitFrame.RoleIconTexture then
+          stealthedUnitFrame.RoleIconTexture:SetAlpha(NS.db.hideEnemyArenaFrameRoles and 0 or 1)
         end
       end
     end
   end
 
   do
-    if NS.inRaid() then
-      local unitIndex = 1
-      local raidFrame
-      repeat
-        raidFrame = _G["CompactRaidFrame" .. unitIndex]
-        if raidFrame then
-          if raidFrame.unit then
-            local nameWithServer = GetUnitName(raidFrame.unit, true)
-            if nameWithServer and raidFrame.name then
-              if NS.db.hideFrameRealmNames then
-                local nameWithoutIndicator = nameWithServer:match("[^-]+")
-                raidFrame.name:SetText(nameWithoutIndicator)
-              else
-                raidFrame.name:SetText(nameWithServer)
-              end
+    -- loop through 1-5
+    for unitIndex = 1, 5 do
+      local memberFrame = _G["CompactPartyFrameMember" .. unitIndex]
+      local petFrame = _G["CompactPartyFramePet" .. unitIndex]
+      if memberFrame then
+        if memberFrame.unit and memberFrame.name then
+          memberFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+
+          local nameWithServer = GetUnitName(memberFrame.unit, true)
+          if nameWithServer then
+            if NS.db.hideFrameRealmNames then
+              local nameWithoutServer = nameWithServer:match("[^-]+")
+              memberFrame.name:SetText(nameWithoutServer)
+            else
+              memberFrame.name:SetText(nameWithServer)
             end
           end
-          if raidFrame.name then
-            raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
-          end
-          if raidFrame.roleIcon then
-            raidFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
-          end
         end
-        unitIndex = unitIndex + 1
-      until not raidFrame
+        if memberFrame.roleIcon then
+          memberFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+        end
+      end
+      if petFrame then
+        if petFrame.name then
+          petFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+        end
+      end
     end
   end
 
   do
-    if NS.inRaid() then
-      -- loop through 1-8
-      for groupIndex = 1, 8 do
-        local groupFrame = _G["CompactRaidGroup" .. groupIndex]
-        if groupFrame then
-          if groupFrame.title then
-            groupFrame.title:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
+    local unitIndex = 1
+    local raidFrame
+    repeat
+      raidFrame = _G["CompactRaidFrame" .. unitIndex]
+      if raidFrame then
+        if raidFrame.unit and raidFrame.name then
+          raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+
+          local nameWithServer = GetUnitName(raidFrame.unit, true)
+          if nameWithServer then
+            if NS.db.hideFrameRealmNames then
+              local nameWithoutIndicator = nameWithServer:match("[^-]+")
+              raidFrame.name:SetText(nameWithoutIndicator)
+            else
+              raidFrame.name:SetText(nameWithServer)
+            end
           end
-          -- loop through 1-5
-          for unitIndex = 1, 5 do
-            local raidFrame = _G["CompactRaidGroup" .. groupIndex .. "Member" .. unitIndex]
-            if raidFrame then
-              if raidFrame.unit then
-                local nameWithServer = GetUnitName(raidFrame.unit, true)
-                if nameWithServer and raidFrame.name then
-                  if NS.db.hideFrameRealmNames then
-                    local nameWithoutIndicator = nameWithServer:match("[^-]+")
-                    raidFrame.name:SetText(nameWithoutIndicator)
-                  else
-                    raidFrame.name:SetText(nameWithServer)
-                  end
+        end
+        if raidFrame.roleIcon then
+          raidFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+        end
+      end
+      unitIndex = unitIndex + 1
+    until not raidFrame
+  end
+
+  do
+    -- loop through 1-8
+    for groupIndex = 1, 8 do
+      local groupFrame = _G["CompactRaidGroup" .. groupIndex]
+      if groupFrame then
+        if groupFrame.title then
+          groupFrame.title:SetAlpha(NS.db.hideFrameTitles and 0 or 1)
+        end
+        -- loop through 1-5
+        for unitIndex = 1, 5 do
+          local raidFrame = _G["CompactRaidGroup" .. groupIndex .. "Member" .. unitIndex]
+          if raidFrame then
+            if raidFrame.unit and raidFrame.name then
+              raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+
+              local nameWithServer = GetUnitName(raidFrame.unit, true)
+              if nameWithServer then
+                if NS.db.hideFrameRealmNames then
+                  local nameWithoutIndicator = nameWithServer:match("[^-]+")
+                  raidFrame.name:SetText(nameWithoutIndicator)
+                else
+                  raidFrame.name:SetText(nameWithServer)
                 end
               end
-              if raidFrame.name then
-                raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
-              end
-              if raidFrame.roleIcon then
-                raidFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
-              end
+            end
+            if raidFrame.roleIcon then
+              raidFrame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
             end
           end
         end
@@ -387,6 +453,13 @@ NS.Options_Setup = function()
     NS.Options_SlashCommands(message)
   end
 end
+
+function FlatRaidFrames:PLAYER_LOGIN()
+  FlatRaidFramesFrame:UnregisterEvent("PLAYER_LOGIN")
+
+  NS.OnDbChanged()
+end
+FlatRaidFramesFrame:RegisterEvent("PLAYER_LOGIN")
 
 function FlatRaidFrames:ADDON_LOADED(addon)
   if addon == AddonName then

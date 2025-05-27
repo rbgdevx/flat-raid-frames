@@ -29,7 +29,8 @@
     "ChatFontNormal",
     "OKAY",
     "NOT_BOUND",
-    "GetUnitName"
+    "GetUnitName",
+    "CompactArenaFrameTitle"
   ],
   "Lua.runtime.builtin": {
     "basic": "disable",

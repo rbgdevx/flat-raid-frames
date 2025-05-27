@@ -1,20 +1,10 @@
 local _, NS = ...
 
-local IsInRaid = IsInRaid
-local IsInGroup = IsInGroup
 local pairs = pairs
 local type = type
 local next = next
 local setmetatable = setmetatable
 local getmetatable = getmetatable
-
-NS.inRaid = function()
-  return IsInRaid()
-end
-
-NS.inParty = function()
-  return IsInGroup() and not IsInRaid()
-end
 
 -- Copies table values from src to dst if they don't exist in dst
 NS.CopyDefaults = function(src, dst)

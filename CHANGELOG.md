@@ -1,5 +1,10 @@
 # Flat Raid Frames
 
+## [v1.2.2](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.2.2) (2025-05-26)
+
+- Adding new settings to control arena frames
+- Remove all conditional logic for frames to fix issues
+
 ## [v1.2.1](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.2.1) (2025-05-25)
 
 - Adding new option to hide realm names from frames

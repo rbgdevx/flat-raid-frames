@@ -5,7 +5,13 @@ local CreateFrame = CreateFrame
 ---@class DBTable : table
 ---@field hideFrameTitles boolean
 ---@field hideFrameNames boolean
+---@field hideFrameRealmNames boolean
 ---@field hideFrameRoles boolean
+---@field hideEnemyArenaFrameNames boolean
+---@field hideEnemyArenaFrameRoles boolean
+---@field hidePreMatchEnemyArenaFrameSpecs boolean
+---@field hidePreMatchEnemyArenaFrameClasses boolean
+---@field hidePreMatchEnemyArenaFrameRoles boolean
 
 ---@class FlatRaidFrames
 ---@field ADDON_LOADED function
@@ -33,4 +39,9 @@ NS.DefaultDatabase = {
   hideFrameNames = false,
   hideFrameRealmNames = false,
   hideFrameRoles = false,
+  hideEnemyArenaFrameNames = false,
+  hideEnemyArenaFrameRoles = false,
+  hidePreMatchEnemyArenaFrameSpecs = false,
+  hidePreMatchEnemyArenaFrameClasses = false,
+  hidePreMatchEnemyArenaFrameRoles = false,
 }
