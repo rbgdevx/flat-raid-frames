@@ -1,5 +1,9 @@
 # Flat Raid Frames
 
+## [v1.2.3](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.2.3) (2025-08-26)
+
+- Update toc
+
 ## [v1.2.2](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.2.2) (2025-05-26)
 
 - Adding new settings to control arena frames

@@ -58,7 +58,7 @@ NS.AceConfig = {
       width = "full",
     },
     hideFrameRoles = {
-      name = "Hide Friendly Frame Roles",
+      name = "Hide Friendly Frame Role Icons",
       desc = "Hide the role icons on raid and party frames",
       type = "toggle",
       width = "full",
@@ -86,7 +86,7 @@ NS.AceConfig = {
       end,
     },
     hideEnemyArenaFrameRoles = {
-      name = "Hide Enemy Arena Frame Roles",
+      name = "Hide Enemy Arena Frame Role Icons",
       desc = "Hide the roles on the enemy arena frame during the match",
       type = "toggle",
       width = "full",
@@ -128,7 +128,7 @@ NS.AceConfig = {
       end,
     },
     hidePreMatchEnemyArenaFrameRoles = {
-      name = "Hide Pre-Match Enemy Arena Frame Roles",
+      name = "Hide Pre-Match Enemy Arena Frame Role Icons",
       desc = "Hide the roles on the enemy arena frame in the arena waiting room",
       type = "toggle",
       width = "full",
