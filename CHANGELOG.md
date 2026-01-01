@@ -1,5 +1,13 @@
 # Flat Raid Frames
 
+## [v1.3.0](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.3.0) (2025-12-31)
+
+- Update libs for midnight
+- Handling secret values for moving frames while in-combat or in instances
+- Updating settings to include new options for arena frames + re-organizing
+- Settings and implementation now include separating options for friendly and enemy arena frames
+- Minor cleanup and bug fixes
+
 ## [v1.2.3](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.2.3) (2025-08-26)
 
 - Update toc

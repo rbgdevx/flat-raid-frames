@@ -6,140 +6,177 @@ NS.AceConfig = {
   name = AddonName,
   type = "group",
   args = {
-    hideFrameTitles = {
-      name = "Hide All Frame Titles",
-      desc = "Hide raid group titles and party titles above frames",
-      type = "toggle",
-      width = "full",
+    generalGroup = {
+      name = "General Settings",
+      type = "group",
+      inline = true,
       order = 1,
-      set = function(_, val)
-        NS.db.hideFrameTitles = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hideFrameTitles
-      end,
+      args = {
+        hideFrameTitles = {
+          name = "Hide All Group Labels",
+          desc = "Hide raid group labels and party labels above frames",
+          type = "toggle",
+          width = "full",
+          order = 1,
+          set = function(_, val)
+            NS.db.hideFrameTitles = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hideFrameTitles
+          end,
+        },
+        hideFrameRealmNames = {
+          name = "Hide All Realm Names",
+          desc = "Hide the realm names on raid and party frames",
+          type = "toggle",
+          width = "full",
+          order = 2,
+          set = function(_, val)
+            NS.db.hideFrameRealmNames = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hideFrameRealmNames
+          end,
+        },
+      },
     },
-    hideFrameNames = {
-      name = "Hide Friendly Frame Names",
-      desc = "Hide the names on raid and party frames",
-      type = "toggle",
-      width = 1.2,
+    friendlyGroup = {
+      name = "Friendly Frames",
+      type = "group",
+      inline = true,
       order = 2,
-      set = function(_, val)
-        NS.db.hideFrameNames = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hideFrameNames
-      end,
+      args = {
+        hideFrameNames = {
+          name = "Hide Names",
+          desc = "Hide the names on raid and party frames",
+          type = "toggle",
+          width = "full",
+          order = 1,
+          set = function(_, val)
+            NS.db.hideFrameNames = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hideFrameNames
+          end,
+        },
+        hideFrameRoles = {
+          name = "Hide Icons",
+          desc = "Hide the role icons on raid and party frames",
+          type = "toggle",
+          width = "full",
+          order = 2,
+          set = function(_, val)
+            NS.db.hideFrameRoles = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hideFrameRoles
+          end,
+        },
+      },
     },
-    hideFrameRealmNames = {
-      name = "Hide Friendly Frame Realm Names",
-      desc = "Hide the realm names on raid and party frames",
-      type = "toggle",
-      width = 1.5,
+    enemyArenaGroup = {
+      name = "Enemy Arena Frames",
+      type = "group",
+      inline = true,
       order = 3,
-      disabled = function()
-        return NS.db.hideFrameNames
-      end,
-      set = function(_, val)
-        NS.db.hideFrameRealmNames = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hideFrameRealmNames
-      end,
+      args = {
+        hideEnemyArenaFrameNames = {
+          name = "Hide Names",
+          desc = "Hide the names on the enemy arena frame during the match",
+          type = "toggle",
+          width = "full",
+          order = 1,
+          set = function(_, val)
+            NS.db.hideEnemyArenaFrameNames = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hideEnemyArenaFrameNames
+          end,
+        },
+        hideEnemyArenaFrameRoles = {
+          name = "Hide Role Icons",
+          desc = "Hide the roles on the enemy arena frame during the match",
+          type = "toggle",
+          width = "full",
+          order = 2,
+          set = function(_, val)
+            NS.db.hideEnemyArenaFrameRoles = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hideEnemyArenaFrameRoles
+          end,
+        },
+      },
     },
-    spacer1 = {
-      name = "",
-      type = "description",
+    prematchEnemyArenaGroup = {
+      name = "Prematch (Lobby) Enemy Arena Frames",
+      type = "group",
+      inline = true,
       order = 4,
-      width = "full",
-    },
-    hideFrameRoles = {
-      name = "Hide Friendly Frame Role Icons",
-      desc = "Hide the role icons on raid and party frames",
-      type = "toggle",
-      width = "full",
-      order = 5,
-      set = function(_, val)
-        NS.db.hideFrameRoles = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hideFrameRoles
-      end,
-    },
-    hideEnemyArenaFrameNames = {
-      name = "Hide Enemy Arena Frame Names",
-      desc = "Hide the names on the enemy arena frame during the match",
-      type = "toggle",
-      width = "full",
-      order = 6,
-      set = function(_, val)
-        NS.db.hideEnemyArenaFrameNames = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hideEnemyArenaFrameNames
-      end,
-    },
-    hideEnemyArenaFrameRoles = {
-      name = "Hide Enemy Arena Frame Role Icons",
-      desc = "Hide the roles on the enemy arena frame during the match",
-      type = "toggle",
-      width = "full",
-      order = 7,
-      set = function(_, val)
-        NS.db.hideEnemyArenaFrameRoles = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hideEnemyArenaFrameRoles
-      end,
-    },
-    hidePreMatchEnemyArenaFrameSpecs = {
-      name = "Hide Pre-Match Enemy Arena Frame Specs",
-      desc = "Hide the specs on the enemy arena frame in the arena waiting room",
-      type = "toggle",
-      width = "full",
-      order = 8,
-      set = function(_, val)
-        NS.db.hidePreMatchEnemyArenaFrameSpecs = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hidePreMatchEnemyArenaFrameSpecs
-      end,
-    },
-    hidePreMatchEnemyArenaFrameClasses = {
-      name = "Hide Pre-Match Enemy Arena Frame Classes",
-      desc = "Hide the classes on the enemy arena frame in the arena waiting room",
-      type = "toggle",
-      width = "full",
-      order = 9,
-      set = function(_, val)
-        NS.db.hidePreMatchEnemyArenaFrameClasses = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hidePreMatchEnemyArenaFrameClasses
-      end,
-    },
-    hidePreMatchEnemyArenaFrameRoles = {
-      name = "Hide Pre-Match Enemy Arena Frame Role Icons",
-      desc = "Hide the roles on the enemy arena frame in the arena waiting room",
-      type = "toggle",
-      width = "full",
-      order = 10,
-      set = function(_, val)
-        NS.db.hidePreMatchEnemyArenaFrameRoles = val
-        NS.OnDbChanged()
-      end,
-      get = function(_)
-        return NS.db.hidePreMatchEnemyArenaFrameRoles
-      end,
+      args = {
+        hidePreMatchEnemyArenaFrameSpecs = {
+          name = "Hide Spec names",
+          desc = "Hide the specs on the enemy arena frame in the arena waiting room",
+          type = "toggle",
+          width = "full",
+          order = 1,
+          set = function(_, val)
+            NS.db.hidePreMatchEnemyArenaFrameSpecs = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hidePreMatchEnemyArenaFrameSpecs
+          end,
+        },
+        hidePreMatchEnemyArenaFrameClasses = {
+          name = "Hide Class names",
+          desc = "Hide the classes on the enemy arena frame in the arena waiting room",
+          type = "toggle",
+          width = "full",
+          order = 2,
+          set = function(_, val)
+            NS.db.hidePreMatchEnemyArenaFrameClasses = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hidePreMatchEnemyArenaFrameClasses
+          end,
+        },
+        hidePreMatchEnemyArenaFrameRoles = {
+          name = "Hide Role Icons",
+          desc = "Hide the roles on the enemy arena frame in the arena waiting room",
+          type = "toggle",
+          width = "full",
+          order = 3,
+          set = function(_, val)
+            NS.db.hidePreMatchEnemyArenaFrameRoles = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hidePreMatchEnemyArenaFrameRoles
+          end,
+        },
+        hidePreMatchEnemyArenaFrameSpecIcons = {
+          name = "Hide Spec Icons",
+          desc = "Hide the spec icons on the enemy arena frame in the arena waiting room",
+          type = "toggle",
+          width = "full",
+          order = 4,
+          set = function(_, val)
+            NS.db.hidePreMatchEnemyArenaFrameSpecIcons = val
+            NS.OnDbChanged()
+          end,
+          get = function(_)
+            return NS.db.hidePreMatchEnemyArenaFrameSpecIcons
+          end,
+        },
+      },
     },
     reset = {
       name = "Reset Everything",
