@@ -1,5 +1,9 @@
 # Flat Raid Frames
 
+## [v1.3.1](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.3.1) (2026-01-01)
+
+- Adding missing config option
+
 ## [v1.3.0](https://github.com/rbgdevx/flat-raid-frames/releases/tag/v1.3.0) (2025-12-31)
 
 - Update libs for midnight

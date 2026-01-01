@@ -12,6 +12,7 @@ local CreateFrame = CreateFrame
 ---@field hidePreMatchEnemyArenaFrameSpecs boolean
 ---@field hidePreMatchEnemyArenaFrameClasses boolean
 ---@field hidePreMatchEnemyArenaFrameRoles boolean
+---@field hidePreMatchEnemyArenaFrameSpecIcons boolean
 
 ---@class FlatRaidFrames
 ---@field ADDON_LOADED function
@@ -44,4 +45,5 @@ NS.DefaultDatabase = {
   hidePreMatchEnemyArenaFrameSpecs = false,
   hidePreMatchEnemyArenaFrameClasses = false,
   hidePreMatchEnemyArenaFrameRoles = false,
+  hidePreMatchEnemyArenaFrameSpecIcons = false,
 }
