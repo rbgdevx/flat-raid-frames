@@ -138,10 +138,10 @@ local function updateRoleIcons(frame)
   end
 
   -- if frame.optionTable == DefaultCompactUnitFrameOptions then
-  -- 	if frame.roleIcon then
-  -- 		frame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
-  -- 		ensureRegionOnTop(frame, frame.roleIcon)
-  -- 	end
+  --   if frame.roleIcon then
+  --     frame.roleIcon:SetAlpha(NS.db.hideFrameRoles and 0 or 1)
+  --     ensureRegionOnTop(frame, frame.roleIcon)
+  --   end
   -- end
 end
 
@@ -209,9 +209,9 @@ local function updateNames(frame)
   end
 
   -- if frame.optionTable == DefaultCompactUnitFrameOptions then
-  -- 	if frame.name then
-  -- 		frame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
-  -- 	end
+  --   if frame.name then
+  --     frame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
+  --   end
   -- end
 end
 
@@ -430,22 +430,22 @@ function FlatRaidFrames:PLAYER_ENTERING_WORLD()
     end
 
     -- local set_arena_opponent_foreground_color = function(_texture, class)
-    -- 	local class_color = class_colors[class]
-    -- 	_texture:SetVertexColor(class_color[1], class_color[2], class_color[3], class_color[4])
+    --   local class_color = class_colors[class]
+    --   texture:SetVertexColor(class_color[1], class_color[2], class_color[3], class_color[4])
     -- end
 
     -- local function set_stealth_unit_color(stealthed_unit_frame, foreground_texture)
-    -- 	local unit_class_info = stealthed_unit_frame:GetUnitClassInfo()
-    -- 	local class = unit_class_info.class or "PRIEST"
-    -- 	set_arena_opponent_foreground_color(foreground_texture, class)
+    --   local unit_class_info = stealthed_unit_frame:GetUnitClassInfo()
+    --   local class = unit_class_info.class or "PRIEST"
+    --   set_arena_opponent_foreground_color(foreground_texture, class)
     -- end
 
     -- local function set_pre_match_frame_color(index, pre_match_texture)
-    -- 	local spec_id = GetArenaOpponentSpec(index)
-    -- 	if spec_id and spec_id > 0 then
-    -- 		local class = select(6, GetSpecializationInfoByID(spec_id)) or "PRIEST"
-    -- 		set_arena_opponent_foreground_color(pre_match_texture, class)
-    -- 	end
+    --   local spec_id = GetArenaOpponentSpec(index)
+    --   if spec_id and spec_id > 0 then
+    --     local class = select(6, GetSpecializationInfoByID(spec_id)) or "PRIEST"
+    --     set_arena_opponent_foreground_color(pre_match_texture, class)
+    --   end
     -- end
 
     -- color
@@ -456,7 +456,7 @@ function FlatRaidFrames:PLAYER_ENTERING_WORLD()
         local foreground_texture = stealthed_unit_frame.BarTexture
         local background_texture = stealthed_unit_frame.BackgroundTexture
         -- hooksecurefunc(stealthed_unit_frame, "SetUnitFrame", function()
-        -- 	set_stealth_unit_color(stealthed_unit_frame, foreground_texture)
+        --   set_stealth_unit_color(stealthed_unit_frame, foreground_texture)
         -- end)
         -- set_stealth_unit_color(stealthed_unit_frame, foreground_texture)
         set_stealth_unit_textures(foreground_texture, background_texture)
@@ -468,7 +468,7 @@ function FlatRaidFrames:PLAYER_ENTERING_WORLD()
       if pre_match_frame then
         local pre_match_texture = pre_match_frame.BarTexture
         -- hooksecurefunc(pre_match_frame, "Update", function()
-        -- 	set_pre_match_frame_color(i, pre_match_texture)
+        --   set_pre_match_frame_color(i, pre_match_texture)
         -- end)
         -- set_pre_match_frame_color(i, pre_match_texture)
         set_pre_match_unit_textures(pre_match_texture)
