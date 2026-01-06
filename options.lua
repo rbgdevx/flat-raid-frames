@@ -43,7 +43,7 @@ NS.AceConfig = {
       },
     },
     friendlyGroup = {
-      name = "Friendly Frames",
+      name = "Friendly Arena Frames",
       type = "group",
       inline = true,
       order = 2,
