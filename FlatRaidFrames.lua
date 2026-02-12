@@ -182,11 +182,13 @@ local function updateNames(frame)
           frame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
         end
 
-        local nameWithServer = GetUnitName(frame.unit, true)
-        if nameWithServer then
+        local ok, nameWithServer = pcall(GetUnitName, frame.unit, true)
+        if ok and nameWithServer then
           if NS.db.hideFrameRealmNames then
-            local nameWithoutServer = GetUnitName(frame.unit, false)
-            frame.name:SetText(nameWithoutServer)
+            local ok2, nameWithoutServer = pcall(GetUnitName, frame.unit, false)
+            if ok2 and nameWithoutServer then
+              frame.name:SetText(nameWithoutServer)
+            end
           end
         end
 
@@ -230,11 +232,13 @@ local function updateGroups(groupIndex)
         if raidFrame.unit and raidFrame.name then
           raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
 
-          local nameWithServer = GetUnitName(raidFrame.unit, true)
-          if nameWithServer then
+          local ok, nameWithServer = pcall(GetUnitName, raidFrame.unit, true)
+          if ok and nameWithServer then
             if NS.db.hideFrameRealmNames then
-              local nameWithoutIndicator = GetUnitName(raidFrame.unit, false)
-              raidFrame.name:SetText(nameWithoutIndicator)
+              local ok2, nameWithoutIndicator = pcall(GetUnitName, raidFrame.unit, false)
+              if ok2 and nameWithoutIndicator then
+                raidFrame.name:SetText(nameWithoutIndicator)
+              end
             end
           end
         end
@@ -264,11 +268,13 @@ NS.OnDbChanged = function()
           if memberFrame.unit and memberFrame.name then
             memberFrame.name:SetAlpha(NS.db.hideEnemyArenaFrameNames and 0 or 1)
 
-            local nameWithServer = GetUnitName(memberFrame.unit, true)
-            if nameWithServer then
+            local ok, nameWithServer = pcall(GetUnitName, memberFrame.unit, true)
+            if ok and nameWithServer then
               if NS.db.hideFrameRealmNames then
-                local nameWithoutServer = GetUnitName(memberFrame.unit, false)
-                memberFrame.name:SetText(nameWithoutServer)
+                local ok2, nameWithoutServer = pcall(GetUnitName, memberFrame.unit, false)
+                if ok2 and nameWithoutServer then
+                  memberFrame.name:SetText(nameWithoutServer)
+                end
               else
                 memberFrame.name:SetText(nameWithServer)
               end
@@ -320,11 +326,13 @@ NS.OnDbChanged = function()
           if memberFrame.unit and memberFrame.name then
             memberFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
 
-            local nameWithServer = GetUnitName(memberFrame.unit, true)
-            if nameWithServer then
+            local ok, nameWithServer = pcall(GetUnitName, memberFrame.unit, true)
+            if ok and nameWithServer then
               if NS.db.hideFrameRealmNames then
-                local nameWithoutServer = GetUnitName(memberFrame.unit, false)
-                memberFrame.name:SetText(nameWithoutServer)
+                local ok2, nameWithoutServer = pcall(GetUnitName, memberFrame.unit, false)
+                if ok2 and nameWithoutServer then
+                  memberFrame.name:SetText(nameWithoutServer)
+                end
               else
                 memberFrame.name:SetText(nameWithServer)
               end
@@ -352,11 +360,13 @@ NS.OnDbChanged = function()
           if raidFrame.unit and raidFrame.name then
             raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
 
-            local nameWithServer = GetUnitName(raidFrame.unit, true)
-            if nameWithServer then
+            local ok, nameWithServer = pcall(GetUnitName, raidFrame.unit, true)
+            if ok and nameWithServer then
               if NS.db.hideFrameRealmNames then
-                local nameWithoutIndicator = GetUnitName(raidFrame.unit, false)
-                raidFrame.name:SetText(nameWithoutIndicator)
+                local ok2, nameWithoutIndicator = pcall(GetUnitName, raidFrame.unit, false)
+                if ok2 and nameWithoutIndicator then
+                  raidFrame.name:SetText(nameWithoutIndicator)
+                end
               else
                 raidFrame.name:SetText(nameWithServer)
               end
@@ -386,11 +396,13 @@ NS.OnDbChanged = function()
               if raidFrame.unit and raidFrame.name then
                 raidFrame.name:SetAlpha(NS.db.hideFrameNames and 0 or 1)
 
-                local nameWithServer = GetUnitName(raidFrame.unit, true)
-                if nameWithServer then
+                local ok, nameWithServer = pcall(GetUnitName, raidFrame.unit, true)
+                if ok and nameWithServer then
                   if NS.db.hideFrameRealmNames then
-                    local nameWithoutIndicator = GetUnitName(raidFrame.unit, false)
-                    raidFrame.name:SetText(nameWithoutIndicator)
+                    local ok2, nameWithoutIndicator = pcall(GetUnitName, raidFrame.unit, false)
+                    if ok2 and nameWithoutIndicator then
+                      raidFrame.name:SetText(nameWithoutIndicator)
+                    end
                   else
                     raidFrame.name:SetText(nameWithServer)
                   end
